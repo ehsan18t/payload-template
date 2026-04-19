@@ -1,164 +1,136 @@
-:root {
-  --font-mono: 'Roboto Mono', monospace;
+@import url("https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kode+Mono:wght@400..700&display=swap");
+@import "tailwindcss";
+
+/* Override Tailwind v4's default media-query dark mode to use our .dark class toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant hover (&:hover);
+
+@layer base {
+  :root,
+  [data-theme="light"] {
+    --background: #ffffff;
+    --foreground: #18181b; /* zinc-900 */
+    --card: #fafafa; /* zinc-50 */
+    --muted: #f4f4f5; /* zinc-100 */
+    --muted-foreground: #71717a; /* zinc-500 */
+    --border: #e4e4e7; /* zinc-200 */
+    --primary: #18181b;
+    --primary-foreground: #ffffff;
+
+    /* Brand Accent Setup (From Original Custom CSS) */
+    --brand: 0, 149, 130;
+    --brand-secondary: 16, 185, 129;
+
+    /* Semantic Components */
+    --logo-dot: rgb(var(--brand));
+    --success: #f0fdf4;
+    --success-foreground: #15803d;
+    --mockup-terminal-bg: #18181b;
+    --mockup-code-bg: var(--muted);
+    color-scheme: light dark;
+  }
+
+  .dark,
+  [data-theme="dark"] {
+    /* Semantic UI Layout */
+    --background: #09090b;
+    --foreground: #fafafa; /* zinc-50 */
+    --card: #0d0d12;
+    --muted: #18181b; /* zinc-900 */
+    --muted-foreground: #a1a1aa; /* zinc-400 */
+    --border: #27272a; /* zinc-800 */
+    --primary: #ffffff;
+    --primary-foreground: #18181b;
+
+    /* Brand Accent Setup */
+    --brand: 0, 110, 96;
+    --brand-secondary: 16, 185, 129;
+
+    /* Semantic Components */
+    --logo-dot: rgb(var(--brand-secondary));
+    --success: rgba(34, 197, 94, 0.1);
+    --success-foreground: #4ade80;
+    --mockup-terminal-bg: #27272a;
+    --mockup-code-bg: transparent;
+  }
 }
 
-* {
-  box-sizing: border-box;
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-brand: rgb(var(--brand));
+  --color-brand-secondary: rgb(var(--brand-secondary));
+
+  --color-logo-dot: var(--logo-dot);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-mockup-terminal: var(--mockup-terminal-bg);
+  --color-mockup-code: var(--mockup-code-bg);
+
+  --font-Inter: "Inter", sans-serif;
+  --font-Doto: "Doto", sans-serif;
+  --font-KodeMono: "Kode Mono", monospace;
 }
 
-html {
-  font-size: 18px;
-  line-height: 32px;
+@layer components {
+  .section-padding {
+    @apply px-6 py-24 md:py-32;
+  }
 
-  background: rgb(0, 0, 0);
-  -webkit-font-smoothing: antialiased;
-}
+  .section-container {
+    @apply mx-auto max-w-7xl;
+  }
 
-html,
-body,
-#app {
-  height: 100%;
+  .section-kicker {
+    @apply mb-6 font-KodeMono text-sm uppercase tracking-widest text-muted-foreground;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold tracking-tight text-foreground md:text-5xl;
+  }
+
+  .window-control-dot {
+    @apply h-3 w-3 rounded-full bg-border;
+  }
 }
 
 body {
-  font-family: system-ui;
-  font-size: 18px;
-  line-height: 32px;
-
-  margin: 0;
-  color: rgb(1000, 1000, 1000);
-
-  @media (max-width: 1024px) {
-    font-size: 15px;
-    line-height: 24px;
-  }
+  @apply flex min-h-screen flex-col bg-background text-foreground;
+  @apply font-Inter scroll-smooth leading-6 antialiased;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-h1 {
-  margin: 40px 0;
-  font-size: 64px;
-  line-height: 70px;
-  font-weight: bold;
-
-  @media (max-width: 1024px) {
-    margin: 24px 0;
-    font-size: 42px;
-    line-height: 42px;
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
   }
-
-  @media (max-width: 768px) {
-    font-size: 38px;
-    line-height: 38px;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 32px;
-    line-height: 32px;
+  100% {
+    transform: translateX(-50%);
   }
 }
-
-p {
-  margin: 24px 0;
-
-  @media (max-width: 1024px) {
-    margin: calc(var(--base) * 0.75) 0;
-  }
+.animate-marquee {
+  animation: marquee 40s linear infinite;
 }
-
-a {
-  color: currentColor;
-
-  &:focus {
-    opacity: 0.8;
-    outline: none;
-  }
-
-  &:active {
-    opacity: 0.7;
-    outline: none;
-  }
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
-
-svg {
-  vertical-align: middle;
+.dark .bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
-
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
-  padding: 45px;
-  max-width: 1024px;
-  margin: 0 auto;
-  overflow: hidden;
-
-  @media (max-width: 400px) {
-    padding: 24px;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-
-    h1 {
-      text-align: center;
-    }
-  }
-
-  .links {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    a {
-      text-decoration: none;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .admin {
-      color: rgb(0, 0, 0);
-      background: rgb(1000, 1000, 1000);
-      border: 1px solid rgb(0, 0, 0);
-    }
-
-    .docs {
-      color: rgb(1000, 1000, 1000);
-      background: rgb(0, 0, 0);
-      border: 1px solid rgb(1000, 1000, 1000);
-    }
-  }
-
-  .footer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    @media (max-width: 1024px) {
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    .codeLink {
-      text-decoration: none;
-      padding: 0 0.5rem;
-      background: rgb(60, 60, 60);
-      border-radius: 4px;
-    }
-  }
+.font-mono-accent {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
 }
