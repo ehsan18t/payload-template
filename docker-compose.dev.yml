@@ -1,0 +1,14 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: payload-template-mongo-dev
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - payload_data:/data/db
+
+volumes:
+  payload_data:
