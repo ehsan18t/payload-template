@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="180" height="180">
+  <defs>
+    <clipPath id="ic">
+      <rect x="8" y="8" width="94" height="94" rx="22"/>
+    </clipPath>
+    <pattern id="dots" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="0.8" fill="#00c896" opacity="0.18"/>
+    </pattern>
+  </defs>
+
+  <g clip-path="url(#ic)">
+    <!-- Base bg -->
+    <rect x="8" y="8" width="94" height="94" fill="#070e0a"/>
+    <!-- Chrome bar -->
+    <rect x="8" y="8" width="94" height="26" fill="#0c1c11"/>
+    <!-- Dot grid in content area -->
+    <rect x="8" y="34" width="94" height="68" fill="url(#dots)"/>
+    <!-- Separator -->
+    <line x1="8" y1="34" x2="102" y2="34" stroke="#00c896" stroke-width="0.8" opacity="0.25"/>
+    <!-- 3 chrome dots -->
+    <circle cx="26" cy="21" r="4" fill="#00c896" opacity="0.28"/>
+    <circle cx="40" cy="21" r="4" fill="#00c896" opacity="0.58"/>
+    <circle cx="54" cy="21" r="4" fill="#00c896"/>
+    <!-- URL bar -->
+    <rect x="64" y="14" width="30" height="14" rx="7" fill="#070e0a" stroke="#00c896" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="71" cy="21" r="2" fill="#00c896" opacity="0.4"/>
+    <line x1="76" y1="21" x2="88" y2="21" stroke="#00c896" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Outer border -->
+  <rect x="8" y="8" width="94" height="94" rx="22" fill="none" stroke="#00c896" stroke-width="2"/>
+
+  <!-- <W/C> mark -->
+  <g transform="translate(55, 70)">
+    <!-- < -->
+    <path d="M-24 -15 L-33 0 L-24 15" fill="none" stroke="#00c896" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- W -->
+    <text x="-20" y="8" font-family="'Courier New',monospace" font-size="20" font-weight="700" fill="#ffffff">W</text>
+    <!-- / -->
+    <line x1="6" y1="-16" x2="-3" y2="16" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    <!-- C -->
+    <text x="7" y="8" font-family="'Courier New',monospace" font-size="20" font-weight="700" fill="#00c896">C</text>
+    <!-- > -->
+    <path d="M24 -15 L33 0 L24 15" fill="none" stroke="#00c896" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
