@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
       {
         pathname: "/api/media/file/**"
       }
+    ],
+    remotePatterns: [
+      {
+        hostname: "res.cloudinary.com",
+        protocol: "https"
+      }
     ]
   },
   webpack: (webpackConfig) => {

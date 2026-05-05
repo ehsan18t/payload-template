@@ -1,7 +1,7 @@
-import type { CollectionBeforeChangeHook, CollectionConfig } from "payload";
+import type { CollectionBeforeValidateHook, CollectionConfig } from "payload";
 
-const autoGenerateAlt: CollectionBeforeChangeHook = ({ data, req }) => {
-  if (!data.alt && req.file?.name) {
+const autoGenerateAlt: CollectionBeforeValidateHook = ({ data, req }) => {
+  if (data && !data.alt && req.file?.name) {
     data.alt = req.file.name
       .replace(/\.[^/.]+$/, "")
       .replace(/[-_]/g, " ")
@@ -15,27 +15,15 @@ export const Media: CollectionConfig = {
   slug: "media",
   admin: {
     group: "Assets",
-    description: "Media files stored in Cloudinary"
+    description: "Media files stored in Cloudinary",
+    useAsTitle: "filename"
   },
   access: {
     read: () => true
   },
   hooks: {
-    beforeChange: [autoGenerateAlt]
+    beforeValidate: [autoGenerateAlt]
   },
-  fields: [
-    {
-      name: "prefix",
-      type: "text",
-      label: "Folder",
-      admin: {
-        hidden: true,
-        description: "Automatically set based on the collection that uploaded this asset.",
-        readOnly: true
-      }
-    }
-  ],
-  upload: {
-    filesRequiredOnCreate: false
-  }
+  fields: [],
+  upload: true
 };

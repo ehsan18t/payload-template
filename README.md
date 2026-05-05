@@ -1,67 +1,122 @@
-# Payload Blank Template
+# Payload Template
 
-This template comes configured with the bare minimum to get started on anything you need.
+A Payload CMS 3 + Next.js starter with MongoDB, Tailwind CSS, Biome, Cloudinary media storage, and optional SMTP email.
 
-## Quick start
+## Requirements
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- Node.js `^18.20.2` or `>=20.9.0`
+- pnpm `^9` or `^10`
+- MongoDB, either local or through Docker
 
-## Quick Start - local setup
+## Local Setup
 
-To spin up this template locally, follow these steps:
+1. Install dependencies:
 
-### Clone
+   ```bash
+   pnpm install
+   ```
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+2. Copy the environment file:
 
-### Development
+   ```bash
+   cp .env.example .env
+   ```
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+3. Set the required variables in `.env`:
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+   ```bash
+   DATABASE_URL=
+   PAYLOAD_SECRET=
+   NEXT_PUBLIC_SITE_NAME=
+   CLOUDINARY_CLOUD_NAME=
+   CLOUDINARY_API_KEY=
+   CLOUDINARY_API_SECRET=
+   ```
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+4. Start MongoDB with Docker, or use your own MongoDB instance:
 
-#### Docker (Optional)
+   ```bash
+   pnpm docker:dev:up
+   ```
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+5. Start the app:
 
-To do so, follow these steps:
+   ```bash
+   pnpm dev
+   ```
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+6. Open `http://localhost:3000`, then go to `http://localhost:3000/admin` to create the first admin user.
 
-## How it works
+`NEXT_PUBLIC_SITE_NAME` is required because the template uses it for branded transactional emails.
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+## Cloudinary
 
-### Collections
+This template uses `payload-cloudinary` for the `media` collection. The plugin is wired in `src/payload.config.ts`, with Cloudinary-specific options extracted to `src/configs/cloudinary.ts`.
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+The setup includes:
 
-- #### Users (Authentication)
+- Cloudinary storage adapter for `media`
+- custom media fields through `cloudinaryStorage.customFields`
+- a generic `prefix` field for folder routing
+- package-default behavior for local storage, public IDs, PDF thumbnails, and Dynamic Folder Mode
 
-  Users are auth-enabled collections that have access to the admin panel.
+Set `CLOUDINARY_FOLDER` if you want a specific root folder. Leave it blank to use the package default. Set `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` when frontend components need to build Cloudinary transformation URLs.
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+The template exposes Cloudinary versioning as a single env-based opt-in. See `docs/cloudinary.md` for the versioning toggle and folder-prefix examples.
 
-- #### Media
+Run `pnpm generate:types` after changing Cloudinary custom fields or versioning options so `src/payload-types.ts` stays current.
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## Optional SMTP
 
-### Docker
+SMTP email is disabled unless all SMTP variables are set:
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+```bash
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM_ADDRESS=
+SMTP_FROM_NAME=
+```
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+## Scripts
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+- `pnpm dev` - run the local Next.js dev server
+- `pnpm build` - build for production
+- `pnpm start` - serve the production build
+- `pnpm typecheck` - run TypeScript checks
+- `pnpm lint` - run Biome checks
+- `pnpm lint:fix` - run Biome and apply fixes
+- `pnpm check` - run typecheck and lint
+- `pnpm generate:types` - regenerate `src/payload-types.ts`
+- `pnpm generate:importmap` - regenerate Payload's admin import map
+- `pnpm docker:dev:up` - start the local MongoDB container
+- `pnpm docker:dev:down` - stop the local MongoDB container
+- `pnpm docker:dev:logs` - follow local MongoDB logs
 
-## Questions
+## Project Structure
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+```txt
+src/
+  app/
+    (frontend)/       Frontend routes and global styles
+    (payload)/        Generated Payload admin and API routes
+    my-route/         Example custom route
+  collections/
+    Media.ts          Upload collection extended by payload-cloudinary
+    Users.ts          Auth collection for admin users
+   configs/
+      cloudinary.ts     Cloudinary storage options and custom media fields
+      smtp.ts           Optional SMTP adapter configuration
+  lib/
+    email/            Email sending helpers and templates
+    payload/          Revalidation helpers
+    utils/            Shared utilities
+  payload.config.ts   Payload configuration
+```
+
+## Notes
+
+- `DATABASE_URL` is the MongoDB connection string used by Payload.
+- `PAYLOAD_SECRET` should be a long random value and must not be reused across projects.
+- Files in `src/app/(payload)` are generated by Payload and can be regenerated when the Payload config changes.
