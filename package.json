@@ -21,35 +21,34 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "^3.84.1",
-    "@payloadcms/email-nodemailer": "^3.84.1",
-    "@payloadcms/next": "^3.84.1",
-    "@payloadcms/richtext-lexical": "^3.84.1",
-    "@payloadcms/ui": "^3.84.1",
+    "@payloadcms/db-mongodb": "^3.85.1",
+    "@payloadcms/email-nodemailer": "^3.85.1",
+    "@payloadcms/next": "^3.85.1",
+    "@payloadcms/richtext-lexical": "^3.85.1",
+    "@payloadcms/ui": "^3.85.1",
     "@phosphor-icons/react": "^2.1.10",
-    "@tailwindcss/postcss": "^4.2.4",
-    "cross-env": "^7.0.3",
-    "graphql": "^16.13.2",
-    "next": "16.2.3",
-    "payload": "^3.84.1",
+    "@tailwindcss/postcss": "^4.3.1",
+    "cross-env": "10.1.0",
+    "graphql": "^16.14.2",
+    "next": "16.2.7",
+    "payload": "^3.85.1",
     "payload-cloudinary": "^2.3.0",
-    "postcss": "^8.5.14",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "postcss": "^8.5.15",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
     "sharp": "0.34.2",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.14",
-    "@types/node": "22.19.9",
+    "@biomejs/biome": "^2.5.1",
+    "@types/node": "24.12.3",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "tsx": "4.21.0",
-    "typescript": "5.7.3"
+    "tsx": "4.22.4",
+    "typescript": "6.0.3"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "^9 || ^10"
+    "node": ">=24.15.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -57,6 +56,5 @@
       "esbuild",
       "unrs-resolver"
     ]
-  },
-  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8"
+  }
 }
